@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Venta</title>
+    </h:head>
+    <h:body>
+        <h1>venta </h1>
+        <p:growl id="mensaje" severity="info,fatal" showSummary="true" showDetail="true"/>
+        <h:form> 
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="2">
+                
+                    <p:outputLabel value = "Cantidad" for="txtCantidadVent"/>
+                    <p:inputText value ="${ventaC.modelo.CANTVENT}" required="true" imodelo.}" d="txtCantidadVent" maxlength="3">
+                        <p:keyFilter regEx="/[0-9]/i"/> 
+                    </p:inputText>
+          
+            </h:panelGrid>
+                <p:commandButton icon="pi pi-save" value="Agregar" actionListener="${detalleC.agregar()}" update=":tabla" />  
+                
+          </h:form> 
+        <h:form id="tabla">
+            <p:dataTable value="${ventaC.lstVenta}" var="v" >
+               <p:column headerText="CANTIDAD">
+                    <h:outputText value="${v.CANTVENT}"/>
+                </p:column>
+                <p:column headerText="Eliminar">
+                     <p:commandButton icon="pi pi-save" value="Eliminar" actionListener="${detalleC.eliminar(p)}" update=":tabla" />  
+                </p:column>
+            </p:dataTable>   
+        </h:form>
+    </h:body>
+</html>

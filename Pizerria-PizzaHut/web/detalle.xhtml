@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Detalle</title>
+    </h:head>
+    <h:body>
+        <h1>Detalle </h1>
+        <p:growl id="mensaje" severity="info,fatal" showSummary="true" showDetail="true"/>
+        <h:form> 
+        </h:form>
+        <h:form>
+            <h:panelGrid columns="2">
+                
+             <p:outputLabel value = "Precio" for="txtPRECIO"/>
+                    <p:inputText value ="${detalleC.modelo.PRECVENDET}" required="true" id="txtPreciodet">
+                        <f:validateLength maximum="5"/>
+
+                        <p:keyFilter regEx="/[0-9]/i"/> 
+                    </p:inputText>
+             
+             <p:outputLabel value="Fecha" for="FechaAsig"/>
+                    <p:calendar  id="FechaAsig" placeholder="dia-mes-año" mask="true" value="${detalleC.modelo.PRECVENDET}" pattern="dd/MM/yyyy" 
+                                 required="true" locale="es" requiredMessage="Falta designar la fecha" />
+                
+            </h:panelGrid>
+                <p:commandButton icon="pi pi-save" value="Agregar" actionListener="${detalleC.agregar()}" update=":tabla" />  
+                
+          </h:form> 
+        <h:form id="tabla">
+            <p:dataTable value="${detalleC.lstDetalle}" var="d" >
+               <p:column headerText="FechaAsignacion" sortBy="${a.FECASICOM}" filterBy="${a.FECASICOM}" filterMatchMode="contains">
+                    <h:outputText value="${d.FECVENDET}">
+                    <f:convertDateTime pattern="dd-MMM-yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="COSTO">
+                    <h:outputText value="${d.PRECVENDET}"/>
+                </p:column>
+                <p:column headerText="Eliminar">
+                     <p:commandButton icon="pi pi-save" value="Eliminar" actionListener="${detalleC.eliminar(p)}" update=":tabla" />  
+                </p:column>
+            </p:dataTable>   
+        </h:form>
+    </h:body>
+</html>
