@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pizza Hut</title>
+        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+    </h:head>
+    <h:body>
+        <h1>Cliente</h1>
+        <p:growl id="mensaje" severity="info,fatal" showSummary="true" showDetail="true"/>
+      
+        <h:form>
+            <p:panelGrid columns="2">
+                <p:commandButton value="Add Cliente" oncomplete="PF('wdCliente').show(); "/>
+            </p:panelGrid>
+        </h:form>
+        <p:dialog widgetVar="wdCliente" id="dlgdatos" modal="true" showEffect="clip" header="Nuevo Registro" resizable="false">
+            <p:ajax event="close" listener="${clienteC.limpiar()}" update=":dlgCliente"/>
+            <h:form id="dlgCliente">
+
+                <h:panelGrid columns="2">
+                    <p:outputLabel value = "Nombre" for="txtNombre"/>
+                    <p:inputText value = "${clienteC.modelo.NOMCL}" required="true" id="txtNombre" > 
+                        <f:validateLength minimum="2" maximum="20" />
+
+                        <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/> 
+                    </p:inputText>
+
+                    <p:outputLabel value = "Apellido" for="txtApellido"/>
+                    <p:inputText value ="${clienteC.modelo.APECL}" required="true" id="txtApellido">
+                        <f:validateLength minimum="2" maximum="20"/>
+                        <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ]/i"/> 
+                    </p:inputText>
+                    
+                    <p:outputLabel value = "Dni" for="txtDni"/>
+                    <p:inputText value ="${clienteC.modelo.DNICL}" required="true" id="txtDni" maxlength="8">
+                        <p:keyFilter regEx="/[123456789]/i"/> 
+                    </p:inputText>
+
+                    <p:outputLabel value = "Telefono" for="txtTelefono"/>
+                    <p:inputText value ="${clienteC.modelo.TELCL}" required="true" id="txtTelefono" maxlength="9">
+                        <p:keyFilter regEx="/[123456789]/i"/> 
+                    </p:inputText>
+                    
+                     <p:outputLabel value="Direccion" for="txtDireccion"/> 
+                    <p:inputText value ="${clienteC.modelo.DIRCL}" required="true" id="txtDireccion" >
+                        <f:validateLength minimum="2" maximum="100" />
+                        <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/> 
+                    </p:inputText>
+
+                </h:panelGrid>
+                <p:commandButton icon="pi pi-save" value="agregar" oncomplete="PF('wdCliente').hide();" actionListener="${clienteC.registrar()}" 
+                                 update="dlgCliente :frmCliente :mensaje" rendered="${clienteC.modelo.IDCL == 0}"/>
+                <p:commandButton icon="pi pi-save" value="Actualizar" oncomplete="PF('wdCliente').hide();" actionListener="${clienteC.editar()}" 
+                                 update="dlgCliente :frmCliente :mensaje" rendered="${clienteC.modelo.IDCL != 0}"/>
+            </h:form>
+        </p:dialog>
+        <h:form id="frmCliente"> 
+            <p:dataTable value="${personaC.listarcl}" var="c">
+                <p:column headerText="NOMBRE">
+                    <h:outputText value="${c.NOMCL}"/>
+                </p:column>
+                <p:column headerText="APELLIDO">
+                    <h:outputText value="${c.APECL} "/>
+                </p:column>
+                <p:column headerText="DNI">
+                    <h:outputText value="${c.DNICL}"/>
+                </p:column>
+                <p:column headerText="CELULAR">
+                    <h:outputText value="${c.TELCL}"/>
+                </p:column>
+                <p:column headerText="DIRECCION">
+                    <h:outputText value="${c.DIRCL}"/>
+                </p:column>
+                
+                <p:column headerText="ACCIONES">
+                    <p:commandButton icon="pi pi-refresh" oncomplete="PF('wdCliente').show();" actionListener="${clienteC.llenardatos(p)}" 
+                                     update=":dlgCliente"/>
+                    <p:commandButton icon="ui-icon-circle-close" actionListener="${clienteC.eliminar(p)}" update=":frmCliente :mensaje" />
+                </p:column>
+            </p:dataTable>
+        </h:form>      
+    </h:body>
+</html>
